@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 關鍵防破圖設定：禁止傳送 Referrer，避開第三方網站防盜鏈 -->
+    <meta name="referrer" content="no-referrer">
     <title>30 Minutes Lineups (30ML) 全系列商品典藏圖鑑與資料庫</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,7 +36,6 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom Scrollbar for sleek aesthetic */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -68,9 +69,9 @@
                     <div>
                         <h1 class="text-lg font-bold text-slate-100 leading-tight flex items-center gap-2">
                             30ML 全系列商品典藏資料庫
-                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">v3.5 Master Edition</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">v4.0 Final Pro</span>
                         </h1>
-                        <p class="text-xs text-slate-400">跨來源全收錄（一般發售 / PB限定 / 展覽比賽 / 促銷贈品 / 絕版）</p>
+                        <p class="text-xs text-slate-400">跨來源全收錄（一般發售 / PB限定 / 展覽比賽 / 促銷贈品）</p>
                     </div>
                 </div>
 
@@ -78,11 +79,11 @@
                 <div class="hidden md:flex items-center space-x-4">
                     <button onclick="toggleModal('source-modal')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-2">
                         <i class="fa-solid fa-database text-cyan-400"></i>
-                        資料源對照表 (4 大來源)
+                        資料源對照表
                     </button>
                     <a href="javascript:void(0)" onclick="toggleModal('export-modal')" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium transition flex items-center gap-2 shadow-md shadow-cyan-600/20">
                         <i class="fa-solid fa-file-csv"></i>
-                        匯出完整資料 (CSV/JSON)
+                        匯出資料 (CSV/JSON)
                     </a>
                 </div>
             </div>
@@ -98,7 +99,7 @@
                 <!-- Search Input -->
                 <div class="relative w-full md:w-96">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="搜尋品名、編號、關鍵字（如：偶像大師、ALTO、賽馬娘）..." class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-200 placeholder-slate-500 transition">
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="搜尋品名、編號、關鍵字（如：阿爾特、莉潔特、配件包）..." class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-slate-200 placeholder-slate-500 transition">
                 </div>
 
                 <!-- Rarity / Type Tag Selector -->
@@ -110,11 +111,10 @@
                     <button onclick="setRarityFilter('REGULAR')" id="rarity-REGULAR" class="rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">一般販售</button>
                     <button onclick="setRarityFilter('PB')" id="rarity-PB" class="rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">PB 線上限定</button>
                     <button onclick="setRarityFilter('EVENT')" id="rarity-EVENT" class="rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">展覽/比賽限定</button>
-                    <button onclick="setRarityFilter('PROMO')" id="rarity-PROMO" class="rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">非賣品/滿額贈</button>
                 </div>
             </div>
 
-            <!-- Category Tabs (30MM, 30MS, 30MF, All) -->
+            <!-- Category Tabs -->
             <div class="border-t border-slate-800 pt-4 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex flex-wrap gap-2" id="seriesTabs">
                     <button onclick="setSeriesCategory('ALL')" id="tab-ALL" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-800 text-cyan-400 border border-cyan-500/30 transition">
@@ -129,9 +129,6 @@
                     <button onclick="setSeriesCategory('30MF')" id="tab-30MF" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800 transition">
                         <i class="fa-solid fa-shield-halved mr-1.5"></i>30MF (Fantasy)
                     </button>
-                    <button onclick="setSeriesCategory('COLLAB')" id="tab-COLLAB" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800 transition">
-                        <i class="fa-solid fa-handshake mr-1.5"></i>大型聯名專區
-                    </button>
                 </div>
 
                 <!-- Total Counters -->
@@ -143,15 +140,20 @@
 
         <!-- 2-COLUMN WIDE CARD GRID -->
         <section id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Cards generated dynamically via JavaScript -->
+            <!-- Dynamic Content -->
         </section>
+
+        <!-- Infinite Scroll Sentinel -->
+        <div id="scrollSentinel" class="text-center py-8 text-xs text-slate-500 hidden">
+            <i class="fa-solid fa-circle-notch fa-spin text-cyan-400 text-lg mr-2"></i> 正在載入更多 30ML 商品數據...
+        </div>
 
         <!-- Empty State -->
         <div id="noResults" class="hidden text-center py-16 space-y-4">
             <div class="w-16 h-16 mx-auto bg-slate-900 text-slate-600 rounded-full flex items-center justify-center text-2xl border border-slate-800">
                 <i class="fa-solid fa-box-open"></i>
             </div>
-            <p class="text-slate-400 font-medium">未找到符合搜尋條件的 30ML 商品紀錄</p>
+            <p class="text-slate-400 font-medium">未找到符合條件的 30ML 商品紀錄</p>
             <button onclick="resetFilters()" class="text-xs text-cyan-400 underline hover:text-cyan-300">清除所有搜尋與篩選條件</button>
         </div>
     </main>
@@ -160,269 +162,162 @@
     <footer class="bg-slate-900 border-t border-slate-800 py-8 text-xs text-slate-500">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
             <p>© 30 MINUTES LINEUPS (30MM / 30MS / 30MF) Catalog Dashboard. All images and product copyrights belong to BANDAI SPIRITS.</p>
-            <p class="text-slate-600">資料來源彙整自：Bandai Hobby Site (日本官方)、Premium Bandai Japan、Gundam Fandom Wiki、Surugaya 絕版資料庫。</p>
         </div>
     </footer>
 
-    <!-- Modal: Source Comparison Matrix -->
+    <!-- Modals -->
     <div id="source-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 space-y-4 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 relative shadow-2xl">
             <button onclick="toggleModal('source-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            
-            <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
-                <div class="p-2 bg-cyan-500/20 text-cyan-400 rounded-lg">
-                    <i class="fa-solid fa-database text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-slate-100">4 大數據來源涵蓋範疇與比對機制</h3>
-                    <p class="text-xs text-slate-400">確保 100% 完整涵蓋（一般販售/PB限定/現場比賽/贈品/絕版）</p>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs text-slate-300 border-collapse">
-                    <thead>
-                        <tr class="bg-slate-950 border-b border-slate-800 text-slate-400">
-                            <th class="p-3 font-semibold">資料來源 (Source)</th>
-                            <th class="p-3 font-semibold">涵蓋範圍 (Coverage)</th>
-                            <th class="p-3 font-semibold">稀有/比賽/PB 特性</th>
-                            <th class="p-3 font-semibold">爬蟲採集技術</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-800">
-                        <tr>
-                            <td class="p-3 font-medium text-cyan-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-globe"></i> Bandai Hobby Site
-                            </td>
-                            <td class="p-3">所有 30MM/30MS/30MF 一般販售品</td>
-                            <td class="p-3 text-slate-400">含有公開預告與全高畫質官圖</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Requests + BS4</span></td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-medium text-red-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-store"></i> Premium Bandai
-                            </td>
-                            <td class="p-3">PB 線上預售、特殊配色重塑款</td>
-                            <td class="p-3 text-red-300 font-semibold">獨家聯名（如：偶像大師、賽馬娘）</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Playwright / API</span></td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-medium text-purple-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-book-bookmark"></i> Gundam Fandom Wiki
-                            </td>
-                            <td class="p-3">歷史完整紀錄（含英文規格）</td>
-                            <td class="p-3 text-purple-300 font-semibold">比賽現場獎品、GBC 限定配件</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Pandas read_html</span></td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 font-medium text-amber-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-boxes-packing"></i> 駿河屋 / Surugaya
-                            </td>
-                            <td class="p-3">早期絕版款、店頭活動非賣贈品</td>
-                            <td class="p-3 text-amber-300 font-semibold">雜誌附錄、店頭體驗組（非賣品）</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Datamine Archive</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-400">
-                <i class="fa-solid fa-circle-info text-cyan-400 mr-1"></i>
-                本儀表板已整合上述 4 個資料源之核心數據，確保所有極稀有、比賽限定及斷貨款式均能被調閱與檢視。
-            </div>
+            <h3 class="text-lg font-bold text-slate-100">資料來源說明</h3>
+            <p class="text-xs text-slate-400">本資料庫自動擷取自第三方模型數據庫與萬代公開發售資訊，保持資料高度即時性與乾淨純淨度。</p>
         </div>
     </div>
 
-    <!-- Modal: Export Data -->
     <div id="export-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 relative shadow-2xl">
             <button onclick="toggleModal('export-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
-                    <i class="fa-solid fa-download text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-slate-100">選擇資料匯出格式</h3>
-                    <p class="text-xs text-slate-400">匯出當前所有爬取的 30ML 完整名單</p>
-                </div>
-            </div>
-
+            <h3 class="text-base font-bold text-slate-100">匯出資料庫</h3>
             <div class="space-y-2 pt-2">
-                <button onclick="exportData('csv')" class="w-full p-3 bg-slate-950 hover:bg-slate-800 rounded-xl border border-slate-800 flex items-center justify-between text-left transition group">
-                    <div>
-                        <div class="text-sm font-semibold text-slate-200 group-hover:text-cyan-400">CSV 格式 (.csv)</div>
-                        <div class="text-xs text-slate-500">適合 Excel / Google Sheets 開啟編輯</div>
-                    </div>
-                    <i class="fa-solid fa-file-csv text-slate-400 text-lg"></i>
-                </button>
-                <button onclick="exportData('json')" class="w-full p-3 bg-slate-950 hover:bg-slate-800 rounded-xl border border-slate-800 flex items-center justify-between text-left transition group">
-                    <div>
-                        <div class="text-sm font-semibold text-slate-200 group-hover:text-cyan-400">JSON 數據格式 (.json)</div>
-                        <div class="text-xs text-slate-500">適合程式開發者二次處理與資料庫進口</div>
-                    </div>
-                    <i class="fa-solid fa-code text-slate-400 text-lg"></i>
-                </button>
+                <button onclick="exportData('csv')" class="w-full p-3 bg-slate-950 hover:bg-slate-800 rounded-xl border border-slate-800 text-left transition text-xs font-medium text-slate-200">匯出 CSV 檔案 (.csv)</button>
+                <button onclick="exportData('json')" class="w-full p-3 bg-slate-950 hover:bg-slate-800 rounded-xl border border-slate-800 text-left transition text-xs font-medium text-slate-200">匯出 JSON 數據 (.json)</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 全局狀態變數
+        // Global State & Pagination
         let CATALOG_DATA = [];
+        let FILTERED_DATA = [];
         let currentSeries = 'ALL';
         let currentRarity = 'ALL';
         let searchQuery = '';
+        
+        // 瀑布流/無限滾動分頁參數
+        let currentPage = 1;
+        const PAGE_SIZE = 12; // 每頁只渲染 12 筆卡片，極速載入
 
-        // 當網頁載入完成時，發送 AJAX 去讀取同目錄下的 data.json
+        const FALLBACK_IMG = "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800";
+
+        // 頁面初始化
         window.addEventListener('DOMContentLoaded', () => {
-            fetch('./data.json?t=' + new Date().getTime())
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`無法讀取 data.json (HTTP Status: ${response.status})`);
-                    }
-                    return response.json();
+            fetch('./data.json')
+                .then(res => {
+                    if (!res.ok) throw new Error('讀取 data.json 失敗');
+                    return res.json();
                 })
                 .then(data => {
-                    if (!Array.isArray(data) || data.length === 0) {
-                        alert('已讀取到 data.json，但檔案裡沒有資料！');
-                        return;
-                    }
-                    // 格式化資料，補齊缺省值
-                    CATALOG_DATA = data.map((item, index) => ({
-                        id: item.id || `ITEM-${index + 1}`,
-                        name: item.name || '未命名商品',
-                        series: item.series || '30MM',
-                        rarity: item.rarity || 'REGULAR',
-                        price: item.price || '請見官網',
-                        releaseDate: item.releaseDate || '未知',
-                        status: item.status || '發售中',
-                        sourceName: item.sourceName || '網路收錄',
-                        sourceUrl: item.sourceUrl || '#',
-                        imgUrl: item.imgUrl || 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800',
-                        description: item.description || '暫無商品描述',
-                        tags: Array.isArray(item.tags) ? item.tags : []
-                    }));
-
-                    // 繪製畫面
-                    renderGallery();
+                    CATALOG_DATA = data;
+                    applyFilters();
+                    setupLazyLoading();
                 })
-                .catch(error => {
-                    console.error('載入失敗:', error);
-                    document.getElementById('itemCount').innerText = '0 (請確認已上傳 data.json)';
+                .catch(err => {
+                    console.error('初始化失敗:', err);
+                    document.getElementById('itemCount').innerText = '0 (請上傳 data.json)';
                 });
         });
 
-        // 渲染函式
-        function renderGallery() {
-            const grid = document.getElementById('galleryGrid');
-            const noResults = document.getElementById('noResults');
-            if (!grid) return;
-
-            grid.innerHTML = '';
-
-            const filteredData = CATALOG_DATA.filter(item => {
-                // Series Filter
-                const matchSeries = (currentSeries === 'ALL') || 
-                                    (currentSeries === 'COLLAB' ? item.series === 'COLLAB' : item.series === currentSeries);
-                
-                // Rarity Filter
+        // 篩選核心邏輯
+        function applyFilters() {
+            FILTERED_DATA = CATALOG_DATA.filter(item => {
+                const matchSeries = (currentSeries === 'ALL') || (item.series === currentSeries);
                 const matchRarity = (currentRarity === 'ALL') || (item.rarity === currentRarity);
-
-                // Search Filter
+                
                 const searchLower = searchQuery.toLowerCase();
-                const matchSearch = !searchQuery ||
-                                    item.name.toLowerCase().includes(searchLower) ||
+                const matchSearch = item.name.toLowerCase().includes(searchLower) ||
                                     item.id.toLowerCase().includes(searchLower) ||
-                                    item.description.toLowerCase().includes(searchLower) ||
-                                    item.tags.some(t => t.toLowerCase().includes(searchLower));
+                                    (item.description && item.description.toLowerCase().includes(searchLower));
 
                 return matchSeries && matchRarity && matchSearch;
             });
 
-            // Update Counter
-            document.getElementById('itemCount').innerText = filteredData.length;
+            document.getElementById('itemCount').innerText = FILTERED_DATA.length;
+            
+            // 重置分頁並重新繪製
+            currentPage = 1;
+            document.getElementById('galleryGrid').innerHTML = '';
+            renderNextBatch();
+        }
 
-            if (filteredData.length === 0) {
+        // 分批渲染卡片（瀑布流）
+        function renderNextBatch() {
+            const grid = document.getElementById('galleryGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (FILTERED_DATA.length === 0) {
                 noResults.classList.remove('hidden');
                 return;
             } else {
                 noResults.classList.add('hidden');
             }
 
-            // Render 2-Column Wide Social Media Cards
-            filteredData.forEach(item => {
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = start + PAGE_SIZE;
+            const batch = FILTERED_DATA.slice(start, end);
+
+            batch.forEach(item => {
                 const card = document.createElement('div');
                 card.className = "bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden card-shadow transition hover:border-slate-700 flex flex-col md:flex-row group";
 
-                // Badge Styles
-                let rarityBadgeHTML = '';
+                let rarityBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600/90 text-white shadow-sm"><i class="fa-solid fa-box mr-1"></i> 一般販售</span>`;
                 if (item.rarity === 'PB') {
-                    rarityBadgeHTML = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-600/90 text-white shadow-sm"><i class="fa-solid fa-store mr-1"></i> PB 魂商店限定</span>`;
+                    rarityBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-600/90 text-white shadow-sm"><i class="fa-solid fa-store mr-1"></i> PB 限定</span>`;
                 } else if (item.rarity === 'EVENT') {
-                    rarityBadgeHTML = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-600/90 text-white shadow-sm"><i class="fa-solid fa-trophy mr-1"></i> 展覽/比賽限定</span>`;
-                } else if (item.rarity === 'PROMO') {
-                    rarityBadgeHTML = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-600/90 text-white shadow-sm"><i class="fa-solid fa-gift mr-1"></i> 促銷非賣品</span>`;
-                } else {
-                    rarityBadgeHTML = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600/90 text-white shadow-sm"><i class="fa-solid fa-box mr-1"></i> 一般販售款</span>`;
+                    rarityBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-600/90 text-white shadow-sm"><i class="fa-solid fa-trophy mr-1"></i> 展覽限定</span>`;
                 }
 
                 card.innerHTML = `
-                    <!-- Left: Large Image Container -->
-                    <div class="relative md:w-5/12 h-64 md:h-auto overflow-hidden bg-slate-950 flex-shrink-0">
-                        <img src="${item.imgUrl}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800'">
+                    <div class="relative md:w-5/12 h-64 md:h-auto overflow-hidden bg-slate-950 flex-shrink-0 flex items-center justify-center">
+                        <img src="${item.imgUrl || FALLBACK_IMG}" 
+                             alt="${item.name}" 
+                             onerror="this.onerror=null; this.src='${FALLBACK_IMG}';" 
+                             class="w-full h-full object-contain p-2 group-hover:scale-105 transition duration-500">
                         <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                            ${rarityBadgeHTML}
+                            ${rarityBadge}
                         </div>
-                        <div class="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs text-slate-300 border border-slate-800">
-                            編號: <span class="font-mono text-cyan-400 font-semibold">${item.id}</span>
+                        <div class="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs text-slate-300 border border-slate-800 font-mono text-cyan-400 font-semibold">
+                            ${item.id}
                         </div>
                     </div>
 
-                    <!-- Right: Content & Metadata Details -->
                     <div class="p-5 md:w-7/12 flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
-                            <!-- Tags Row -->
                             <div class="flex flex-wrap items-center gap-1.5 text-xs">
                                 <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-semibold border border-slate-700">${item.series}</span>
-                                ${item.tags.map(t => `<span class="px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">#${t}</span>`).join('')}
+                                ${(item.tags || []).map(t => `<span class="px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">#${t}</span>`).join('')}
                             </div>
 
-                            <!-- Product Name -->
                             <h2 class="text-base font-bold text-slate-100 group-hover:text-cyan-400 transition leading-snug">
                                 ${item.name}
                             </h2>
 
-                            <!-- Description -->
                             <p class="text-xs text-slate-400 leading-relaxed line-clamp-2">
                                 ${item.description}
                             </p>
                         </div>
 
-                        <!-- Details Grid -->
                         <div class="grid grid-cols-2 gap-2 p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs">
                             <div>
-                                <span class="text-slate-500 block">售價 / 取得管道</span>
+                                <span class="text-slate-500 block">預估價格</span>
                                 <span class="font-semibold text-amber-400">${item.price}</span>
                             </div>
                             <div>
-                                <span class="text-slate-500 block">發售 / 活動時間</span>
+                                <span class="text-slate-500 block">發售日期</span>
                                 <span class="font-medium text-slate-200">${item.releaseDate}</span>
                             </div>
                         </div>
 
-                        <!-- Source Data Tag & Link -->
                         <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                            <div class="text-slate-400 flex items-center gap-1.5 overflow-hidden">
+                            <div class="text-slate-400 flex items-center gap-1.5 truncate">
                                 <i class="fa-solid fa-link text-cyan-500"></i>
-                                <span class="truncate" title="${item.sourceName}">來源: ${item.sourceName}</span>
+                                <span class="truncate">${item.sourceName}</span>
                             </div>
                             <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 font-medium transition flex items-center gap-1 whitespace-nowrap">
-                                原始網頁 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                詳情 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                             </a>
                         </div>
                     </div>
@@ -430,19 +325,37 @@
 
                 grid.appendChild(card);
             });
+
+            currentPage++;
         }
 
-        // 事件處理函式
+        // 設置滾動監聽（IntersectionObserver 瀑布流）
+        function setupLazyLoading() {
+            const sentinel = document.getElementById('scrollSentinel');
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    if ((currentPage - 1) * PAGE_SIZE < FILTERED_DATA.length) {
+                        sentinel.classList.remove('hidden');
+                        setTimeout(() => {
+                            renderNextBatch();
+                            sentinel.classList.add('hidden');
+                        }, 300);
+                    }
+                }
+            }, { rootMargin: '200px' });
+
+            observer.observe(sentinel);
+        }
+
+        // 事件控制
         function setSeriesCategory(series) {
             currentSeries = series;
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800 transition';
             });
             const activeBtn = document.getElementById(`tab-${series}`);
-            if (activeBtn) {
-                activeBtn.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-800 text-cyan-400 border border-cyan-500/30 transition';
-            }
-            renderGallery();
+            if (activeBtn) activeBtn.className = 'tab-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-800 text-cyan-400 border border-cyan-500/30 transition';
+            applyFilters();
         }
 
         function setRarityFilter(rarity) {
@@ -451,15 +364,13 @@
                 btn.className = 'rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
             });
             const activeBtn = document.getElementById(`rarity-${rarity}`);
-            if (activeBtn) {
-                activeBtn.className = 'rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500 text-white shadow-md transition';
-            }
-            renderGallery();
+            if (activeBtn) activeBtn.className = 'rarity-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500 text-white shadow-md transition';
+            applyFilters();
         }
 
         function handleSearch() {
             searchQuery = document.getElementById('searchInput').value;
-            renderGallery();
+            applyFilters();
         }
 
         function resetFilters() {
@@ -470,34 +381,19 @@
         }
 
         function toggleModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            }
+            document.getElementById(id).classList.toggle('hidden');
         }
 
         function exportData(format) {
             let dataStr = "";
-            let fileName = `30ML_Catalog_Export_${new Date().toISOString().slice(0,10)}`;
+            let fileName = `30ML_Export_${new Date().toISOString().slice(0,10)}`;
 
             if (format === 'json') {
-                dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(CATALOG_DATA, null, 2));
+                dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(FILTERED_DATA, null, 2));
                 fileName += ".json";
             } else if (format === 'csv') {
-                const headers = ["ID", "名稱", "系列", "稀有度標籤", "價格", "發售日期", "狀態", "資料來源", "來源連結", "描述"];
-                const rows = CATALOG_DATA.map(item => [
-                    `"${item.id}"`,
-                    `"${item.name}"`,
-                    `"${item.series}"`,
-                    `"${item.rarity}"`,
-                    `"${item.price}"`,
-                    `"${item.releaseDate}"`,
-                    `"${item.status}"`,
-                    `"${item.sourceName}"`,
-                    `"${item.sourceUrl}"`,
-                    `"${(item.description || '').replace(/"/g, '""')}"`
-                ]);
-                
+                const headers = ["ID", "名稱", "系列", "稀有度", "價格", "發售日期"];
+                const rows = FILTERED_DATA.map(item => [`"${item.id}"`, `"${item.name}"`, `"${item.series}"`, `"${item.rarity}"`, `"${item.price}"`, `"${item.releaseDate}"`]);
                 const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
                 dataStr = "data:text/csv;charset=utf-8,\uFEFF" + encodeURIComponent(csvContent);
                 fileName += ".csv";
@@ -509,7 +405,6 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-            
             toggleModal('export-modal');
         }
     </script>
