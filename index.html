@@ -141,7 +141,7 @@
             </div>
         </section>
 
-        <!-- 2-COLUMN WIDE CARD GRID (Social Media Feed Style) -->
+        <!-- 2-COLUMN WIDE CARD GRID -->
         <section id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Cards generated dynamically via JavaScript -->
         </section>
@@ -272,41 +272,57 @@
     </div>
 
     <script>
-        // Consolidated Master Dataset containing ALL 30ML Items (Regular, PB, Event, Promo, Discontinued)
-        // 新程式碼：宣告空陣列，改由頁面載入時自動抓取 data.json
-let CATALOG_DATA = [];
-let currentSeries = 'ALL';
-let currentRarity = 'ALL';
-let searchQuery = '';
-
-// 當網頁載入完成時，自動去讀取同目錄下的 data.json
-window.onload = function() {
-    fetch('./data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('無法讀取 data.json');
-            }
-            return response.json();
-        })
-        .then(data => {
-            CATALOG_DATA = data; // 將爬蟲抓到的資料賦予給 CATALOG_DATA
-            renderGallery();      // 成功取得資料後，開始繪製所有卡片
-        })
-        .catch(error => {
-            console.error('載入失敗:', error);
-            document.getElementById('itemCount').innerText = '0 (請確認已上傳 data.json)';
-        });
-};
-
-        // Global State
+        // 全局狀態變數
+        let CATALOG_DATA = [];
         let currentSeries = 'ALL';
         let currentRarity = 'ALL';
         let searchQuery = '';
 
-        // Render Function
+        // 當網頁載入完成時，發送 AJAX 去讀取同目錄下的 data.json
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('./data.json?t=' + new Date().getTime())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`無法讀取 data.json (HTTP Status: ${response.status})`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data) || data.length === 0) {
+                        alert('已讀取到 data.json，但檔案裡沒有資料！');
+                        return;
+                    }
+                    // 格式化資料，補齊缺省值
+                    CATALOG_DATA = data.map((item, index) => ({
+                        id: item.id || `ITEM-${index + 1}`,
+                        name: item.name || '未命名商品',
+                        series: item.series || '30MM',
+                        rarity: item.rarity || 'REGULAR',
+                        price: item.price || '請見官網',
+                        releaseDate: item.releaseDate || '未知',
+                        status: item.status || '發售中',
+                        sourceName: item.sourceName || '網路收錄',
+                        sourceUrl: item.sourceUrl || '#',
+                        imgUrl: item.imgUrl || 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800',
+                        description: item.description || '暫無商品描述',
+                        tags: Array.isArray(item.tags) ? item.tags : []
+                    }));
+
+                    // 繪製畫面
+                    renderGallery();
+                })
+                .catch(error => {
+                    console.error('載入失敗:', error);
+                    document.getElementById('itemCount').innerText = '0 (請確認已上傳 data.json)';
+                });
+        });
+
+        // 渲染函式
         function renderGallery() {
             const grid = document.getElementById('galleryGrid');
             const noResults = document.getElementById('noResults');
+            if (!grid) return;
+
             grid.innerHTML = '';
 
             const filteredData = CATALOG_DATA.filter(item => {
@@ -319,7 +335,8 @@ window.onload = function() {
 
                 // Search Filter
                 const searchLower = searchQuery.toLowerCase();
-                const matchSearch = item.name.toLowerCase().includes(searchLower) ||
+                const matchSearch = !searchQuery ||
+                                    item.name.toLowerCase().includes(searchLower) ||
                                     item.id.toLowerCase().includes(searchLower) ||
                                     item.description.toLowerCase().includes(searchLower) ||
                                     item.tags.some(t => t.toLowerCase().includes(searchLower));
@@ -355,9 +372,9 @@ window.onload = function() {
                 }
 
                 card.innerHTML = `
-                    <!-- Left: Large Image Container (2-Column Social Style Width) -->
+                    <!-- Left: Large Image Container -->
                     <div class="relative md:w-5/12 h-64 md:h-auto overflow-hidden bg-slate-950 flex-shrink-0">
-                        <img src="${item.imgUrl}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="${item.imgUrl}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800'">
                         <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
                             ${rarityBadgeHTML}
                         </div>
@@ -415,7 +432,7 @@ window.onload = function() {
             });
         }
 
-        // Handlers
+        // 事件處理函式
         function setSeriesCategory(series) {
             currentSeries = series;
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -478,7 +495,7 @@ window.onload = function() {
                     `"${item.status}"`,
                     `"${item.sourceName}"`,
                     `"${item.sourceUrl}"`,
-                    `"${item.description.replace(/"/g, '""')}"`
+                    `"${(item.description || '').replace(/"/g, '""')}"`
                 ]);
                 
                 const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
@@ -494,11 +511,6 @@ window.onload = function() {
             downloadAnchor.remove();
             
             toggleModal('export-modal');
-        }
-
-        // Initialize on Load
-        window.onload = function() {
-            renderGallery();
         }
     </script>
 </body>
