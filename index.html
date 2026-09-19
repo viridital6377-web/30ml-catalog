@@ -273,120 +273,30 @@
 
     <script>
         // Consolidated Master Dataset containing ALL 30ML Items (Regular, PB, Event, Promo, Discontinued)
-        const CATALOG_DATA = [
-            {
-                id: "30MS-001",
-                name: "30MS SIS-G00 利雪莉塔 [顏色 A] (Rishetta Color A)",
-                series: "30MS",
-                rarity: "REGULAR",
-                price: "¥2,530 (日圓含稅)",
-                releaseDate: "2021年08月",
-                status: "常規販售",
-                sourceName: "Bandai Hobby Site 官方資料庫",
-                sourceUrl: "https://bandai-hobby.net/site/30minutes_sisters/",
-                imgUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80",
-                description: "30 MINUTES SISTERS 系列創始號機體，具備極高的可動度與客製化擴充裝甲插孔。",
-                tags: ["30MS", "SIS-G00", "組裝模型", "主角機"]
-            },
-            {
-                id: "30MS-PB-01",
-                name: "30MS SIS-Ac10g 莉莉露 [Color A] 闇黑魔導塗裝版 (Black Order Ver.)",
-                series: "30MS",
-                rarity: "PB",
-                price: "¥3,850 (日圓含稅)",
-                releaseDate: "2023年11月",
-                status: "PREMIUM BANDAI 限定 (斷貨)",
-                sourceName: "Premium Bandai Japan 魂商店頁面",
-                sourceUrl: "https://p-bandai.jp/hobby/",
-                imgUrl: "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop&q=80",
-                description: "PB 網路限定特販款式，包含全套闇黑風格重裝甲與專屬成形色替換件。",
-                tags: ["PB限定", "闇黑風格", "聯名限定", "絕版預售"]
-            },
-            {
-                id: "30MS-CL-01",
-                name: "30MS × 偶像大師 閃耀色彩：櫻木真乃 (Mano Sakuragi)",
-                series: "COLLAB",
-                rarity: "PB",
-                price: "¥4,180 (日圓含稅)",
-                releaseDate: "2023年10月",
-                status: "大型聯名限定款",
-                sourceName: "30MS Collab Portal & Bandai Official",
-                sourceUrl: "https://bandai-hobby.net/site/30minutes_sisters/",
-                imgUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop&q=80",
-                description: "30MS 與《偶像大師 閃耀色彩》跨界合作的第一彈重磅商品，附帶多種表情與偶像舞台服裝配件包。",
-                tags: ["偶像大師", "跨界聯名", "30MS", "特別企劃"]
-            },
-            {
-                id: "30MM-001",
-                name: "30MM 1/144 eEXM-17 阿爾特 [陸戰型/綠色] (Alto Land Battle Type)",
-                series: "30MM",
-                rarity: "REGULAR",
-                price: "¥1,980 (日圓含稅)",
-                releaseDate: "2020年02月",
-                status: "常規發售",
-                sourceName: "Bandai Hobby Site 官方目錄",
-                sourceUrl: "https://bandai-hobby.net/site/30minutes_missions/",
-                imgUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-                description: "地球聯合軍代表性主力量產機 ALTO 的陸戰強化型，包含履帶裝甲配件與大口徑加農砲。",
-                tags: ["30MM", "地球聯合軍", "Alto", "陸戰型"]
-            },
-            {
-                id: "30MM-EV-01",
-                name: "30MM 1/144 eEXM-17 阿爾特 [大賽冠軍特仕版 / 透明澄黃 Clear Gold]",
-                series: "30MM",
-                rarity: "EVENT",
-                price: "非賣品 / 賽事前三名獎項",
-                releaseDate: "2022年05月",
-                status: "極稀有 / 比賽限定 (絕版)",
-                sourceName: "Gundam Fandom Wiki (30MM Event Archive)",
-                sourceUrl: "https://gundam.fandom.com/wiki/30_Minutes_Missions",
-                imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80",
-                description: "30MM 全球改裝模型改修大賽（30MM CUSTOMIZE MISSIONS）現場頒發之優勝獎品，全日本限量 50 組。",
-                tags: ["比賽限定", "冠軍獎品", "極稀有", "透明成型色"]
-            },
-            {
-                id: "30MF-001",
-                name: "30MF 莉貝爾騎士 (Rosan Knight)",
-                series: "30MF",
-                rarity: "REGULAR",
-                price: "¥2,200 (日圓含稅)",
-                releaseDate: "2024年08月",
-                status: "最新熱賣款",
-                sourceName: "30 Minutes Fantasy 官網 Portal",
-                sourceUrl: "https://bandai-hobby.net/site/30minutes_fantasy/",
-                imgUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80",
-                description: "30 MINUTES 家族全新奇幻風格產品線 30MF（Fantasy）第 1 彈！主打奇幻職業轉職與元素裝甲換裝系統。",
-                tags: ["30MF", "奇幻世界觀", "騎士JobClass", "2024新品"]
-            },
-            {
-                id: "30MM-PR-01",
-                name: "30ML 5週年紀念專用特製水貼與武器擴充包 (5th Anniversary Promo Part)",
-                series: "30MM",
-                rarity: "PROMO",
-                price: "店頭滿額贈品 (非賣品)",
-                releaseDate: "2024年04月",
-                status: "店面促銷滿額贈 (限量已完畢)",
-                sourceName: "駿河屋 (Surugaya Archive) / 店頭 Campaign",
-                sourceUrl: "https://www.surugaya.jp/",
-                imgUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=800&auto=format&fit=crop&q=80",
-                description: "於日本各大模型實體店購買 30ML 系列滿 ¥3,000 日圓即贈送乙套的限量限定配件包，包含全燙金文字水貼。",
-                tags: ["滿額贈品", "5週年紀念", "非賣品", "限定水貼"]
-            },
-            {
-                id: "30MS-CL-02",
-                name: "30MS × 賽馬娘 Pretty Derby：東海帝王 (Tokai Teio)",
-                series: "COLLAB",
-                rarity: "REGULAR",
-                price: "¥4,070 (日圓含稅)",
-                releaseDate: "2023年03月",
-                status: "常規販售 / 聯名熱銷款",
-                sourceName: "Bandai Hobby Site x Uma Musume Project",
-                sourceUrl: "https://bandai-hobby.net/site/30minutes_sisters/",
-                imgUrl: "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop&q=80",
-                description: "將《賽馬娘》經典角色東海帝王以 30MS 獨家關節系統立體化，保有極高跑步姿態擺放可動性。",
-                tags: ["賽馬娘", "東海帝王", "30MS", "角色模型"]
+        // 新程式碼：宣告空陣列，改由頁面載入時自動抓取 data.json
+let CATALOG_DATA = [];
+let currentSeries = 'ALL';
+let currentRarity = 'ALL';
+let searchQuery = '';
+
+// 當網頁載入完成時，自動去讀取同目錄下的 data.json
+window.onload = function() {
+    fetch('./data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('無法讀取 data.json');
             }
-        ];
+            return response.json();
+        })
+        .then(data => {
+            CATALOG_DATA = data; // 將爬蟲抓到的資料賦予給 CATALOG_DATA
+            renderGallery();      // 成功取得資料後，開始繪製所有卡片
+        })
+        .catch(error => {
+            console.error('載入失敗:', error);
+            document.getElementById('itemCount').innerText = '0 (請確認已上傳 data.json)';
+        });
+};
 
         // Global State
         let currentSeries = 'ALL';
